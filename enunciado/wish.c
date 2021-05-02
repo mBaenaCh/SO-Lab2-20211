@@ -42,6 +42,7 @@ int main(int argc, char*argv[]){
         }
         *p = '\0';
         builtin_command command = str_to_command(str);
+        
         if(command != not_command){
             switch(command){
                 case cd:   
