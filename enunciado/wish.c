@@ -76,7 +76,13 @@ int main(int argc, char*argv[]){
             //Comando built-in
             switch(command){
                 case cd:  
-                    printf("Recibo el comando %s y el argumento %s \n", command_array[0], command_array[1]);
+                    if(command_array[1] == NULL){
+                        printf(ERROR_MSG);
+                    } else {
+                        if(chdir(command_array[1]) != 0){
+                            perror(ERROR_MSG);
+                        }
+                    }
                     break;
                 case path:
                     printf("path\n");
