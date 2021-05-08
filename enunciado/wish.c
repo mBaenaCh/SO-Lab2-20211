@@ -8,8 +8,11 @@
 #define TOK_DELIM " \t\r\n\a" //Delimitadores para STRTOK
 #define ERROR_MSG "An error has occurred\n" //Mensaje de error global
 
-char *system_commands[] = {
+char *system_commands[5] = {
     "/bin/",
+    "/usr/bin/",
+    NULL,
+    NULL,
     NULL
 };
 
@@ -67,10 +70,9 @@ int main(int argc, char*argv[]){
             token = strtok(NULL, TOK_DELIM);
         }
         command_array[position] = NULL;
-
+        
         /*Comparacion linea de comando con comandos built-in*/
         builtin_command command = str_to_command(command_array[0]);
-
         /*Filtrado segun comando ingresado*/
         if(command != not_command){
             //Comando built-in
@@ -84,8 +86,32 @@ int main(int argc, char*argv[]){
                         }
                     }
                     break;
-                case path:
-                    printf("path\n");
+                case path: 
+                    if(command_array[1] == NULL){
+                        int directions = 0;
+                        printf("Paths:\n");
+                        while(system_commands[directions]){
+                            printf("- %s \n",system_commands[directions]);
+                            directions++;
+                        }
+                    } else {
+                        int x = 0;
+                        while(command_array[x+1] != NULL && system_commands[x] != NULL){
+                            int compare = 0;
+                            compare = strcmp(command_array[x+1], system_commands[x]);
+
+                            if(compare == 0){
+                                x++;
+                            } 
+
+                            if(compare != 0 && system_commands[x+1]){
+                                system_commands[x+1] = command_array[x+1];
+                                system_commands[x+2] = NULL;
+                                x++;
+                                compare = 0;
+                            }
+                        }
+                    }
                     break;
                 case endup:
                     exit(0);
