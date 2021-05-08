@@ -114,7 +114,11 @@ int main(int argc, char*argv[]){
                     }
                     break;
                 case endup:
-                    exit(0);
+                    if (command_array[1] != NULL){
+                        printf(ERROR_MSG);
+                    } else {
+                        exit(0);
+                    }
                     break;
                 default:
                     printf("command not found\n");
